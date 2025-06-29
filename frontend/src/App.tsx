@@ -64,7 +64,7 @@ function App() {
   const [editorContent, setEditorContent] = useState('')
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -128,13 +128,15 @@ function App() {
         </Toolbar>
       </AppBar>
       
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <RichTextEditor
-          content={editorContent}
-          onChange={setEditorContent}
-          placeholder="Start writing your notes..."
-        />
-      </Container>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Container maxWidth="lg" sx={{ flex: 1, display: 'flex', flexDirection: 'column', py: 2 }}>
+          <RichTextEditor
+            content={editorContent}
+            onChange={setEditorContent}
+            placeholder="Start writing your notes..."
+          />
+        </Container>
+      </Box>
     </Box>
   )
 }

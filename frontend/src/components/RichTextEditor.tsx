@@ -107,7 +107,7 @@ const RichTextEditor = ({ content = '', onChange, placeholder = 'Start writing..
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Toolbar */}
       <Paper 
         elevation={1} 
@@ -117,7 +117,8 @@ const RichTextEditor = ({ content = '', onChange, placeholder = 'Start writing..
           display: 'flex', 
           flexWrap: 'wrap', 
           gap: 0.5,
-          alignItems: 'center'
+          alignItems: 'center',
+          flexShrink: 0
         }}
       >
         {/* Text Formatting */}
@@ -318,11 +319,15 @@ const RichTextEditor = ({ content = '', onChange, placeholder = 'Start writing..
       <Paper 
         elevation={1} 
         sx={{ 
-          minHeight: '400px', 
-          p: 2,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
           '& .ProseMirror': {
             outline: 'none',
-            minHeight: '400px',
+            flex: 1,
+            overflow: 'auto',
+            padding: '1rem',
             '& p': {
               margin: '0.5em 0',
             },
