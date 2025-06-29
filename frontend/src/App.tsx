@@ -17,6 +17,7 @@ import {
   Settings
 } from '@mui/icons-material'
 import { styled, alpha } from '@mui/material/styles'
+import RichTextEditor from './components/RichTextEditor'
 
 // Styled search component
 const Search = styled('div')(({ theme }) => ({
@@ -60,6 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [editorContent, setEditorContent] = useState('')
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -126,16 +128,12 @@ function App() {
         </Toolbar>
       </AppBar>
       
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h4" gutterBottom>
-            Welcome to Infinite Outliner
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Your hierarchical note-taking application. Use the search bar above to find your notes, 
-            or click the menu icon to navigate through your outline structure.
-          </Typography>
-        </Paper>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <RichTextEditor
+          content={editorContent}
+          onChange={setEditorContent}
+          placeholder="Start writing your notes..."
+        />
       </Container>
     </Box>
   )
