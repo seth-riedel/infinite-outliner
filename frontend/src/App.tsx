@@ -1,80 +1,143 @@
 import { useState } from 'react'
-import './App.css'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  InputBase,
+  Box,
+  Container,
+  Paper
+} from '@mui/material'
+import {
+  Menu as MenuIcon,
+  Search as SearchIcon,
+  AccountCircle,
+  Notifications,
+  Settings
+} from '@mui/icons-material'
+import { styled, alpha } from '@mui/material/styles'
 
-interface OutlinerItem {
-  id: string
-  title: string
-  content: string
-  children: OutlinerItem[]
-  isExpanded: boolean
-}
+// Styled search component
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}))
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '40ch',
+    },
+  },
+}))
 
 function App() {
-  const [items, setItems] = useState<OutlinerItem[]>([
-    {
-      id: '1',
-      title: 'Welcome to Infinite Outliner',
-      content: 'This is your first note. Click to edit or add new items.',
-      children: [],
-      isExpanded: true
-    }
-  ])
-
-  const addItem = (parentId: string | null = null) => {
-    const newItem: OutlinerItem = {
-      id: Date.now().toString(),
-      title: 'New Item',
-      content: '',
-      children: [],
-      isExpanded: true
-    }
-
-    if (parentId === null) {
-      setItems([...items, newItem])
-    } else {
-      // Add to specific parent - this would need recursive logic
-      setItems([...items, newItem])
-    }
-  }
+  const [searchQuery, setSearchQuery] = useState('')
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Infinite Outliner</h1>
-        <button onClick={() => addItem()}>Add Item</button>
-      </header>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+          >
+            Infinite Outliner
+          </Typography>
+          
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search notes..."
+              inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </Search>
+          
+          <Box sx={{ flexGrow: 1 }} />
+          
+          <Box sx={{ display: 'flex' }}>
+            <IconButton
+              size="large"
+              aria-label="show notifications"
+              color="inherit"
+            >
+              <Notifications />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show settings"
+              color="inherit"
+            >
+              <Settings />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
       
-      <div className="app-content">
-        <aside className="sidebar">
-          <div className="outline-tree">
-            {items.map((item) => (
-              <div key={item.id} className="outline-item">
-                <div className="item-header">
-                  <span className="expand-toggle">▶</span>
-                  <span className="item-title">{item.title}</span>
-                </div>
-                {item.children.length > 0 && (
-                  <div className="item-children">
-                    {item.children.map((child) => (
-                      <div key={child.id} className="outline-item child">
-                        <span className="item-title">{child.title}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </aside>
-        
-        <main className="main-content">
-          <div className="editor">
-            <h2>Editor</h2>
-            <p>Select an item from the sidebar to edit its content.</p>
-          </div>
-        </main>
-      </div>
-    </div>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Paper sx={{ p: 3 }}>
+          <Typography variant="h4" gutterBottom>
+            Welcome to Infinite Outliner
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Your hierarchical note-taking application. Use the search bar above to find your notes, 
+            or click the menu icon to navigate through your outline structure.
+          </Typography>
+        </Paper>
+      </Container>
+    </Box>
   )
 }
 
